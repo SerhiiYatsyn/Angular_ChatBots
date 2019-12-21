@@ -1,0 +1,5 @@
+<p>Bots list!</p>
+<ol class="rounded">
+  <li (click)="getClickedBotName($event)" *ngFor="let bot of bots"><a [ngClass]="{'active':bot.name === chatService.nameOfActiveBot}"
+                                                                                       [routerLink]="'bot/'+ bot.name">{{bot.name}}</a></li>
+</ol>

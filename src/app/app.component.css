@@ -1,0 +1,17 @@
+app-root {
+  margin: 0;
+  padding: 0;
+}
+
+router-outlet {
+  width: 500px;
+  height: 500px;
+  /*float: left;*/
+}
+app-chat{
+  /*float: left;*/
+}
+.root{
+  display: flex;
+  justify-content: space-between;
+}

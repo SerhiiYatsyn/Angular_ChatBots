@@ -1,0 +1,5 @@
+<form (submit)="emitMessage()" >
+  <input type="text" size="40" [(ngModel)]="enteredMessage" name="input">
+  <p><input type="submit"></p>
+</form>
+<p>{{sentMessage$ | async}}</p>
