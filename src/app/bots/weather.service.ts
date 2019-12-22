@@ -4,9 +4,9 @@ const API_KEY = '4516db1a05c4f63c3ec5b76bd4b18a2d';
 const WEATHER_PATH = 'https://api.openweathermap.org/data/2.5/weather';
 
 export interface WeatherConditions {
-  temp: number,
-  humidity: number,
-  description: string
+  temp: number;
+  humidity: number;
+  description: string;
 }
 
 function extractWeatherConditions(res: any): WeatherConditions {

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {merge, Observable, pipe, Subject} from 'rxjs';
-import {filter, scan, tap} from 'rxjs/operators';
+import {scan} from 'rxjs/operators';
 
-export  class Message {
+export class Message {
   constructor(public sender: string, public text: string, public recipient: string) {
   }
 }
@@ -10,7 +10,6 @@ export  class Message {
 @Injectable({
   providedIn: 'root'
 })
-
 
 export class ChatService {
 
@@ -20,10 +19,6 @@ export class ChatService {
     this.sentMessage$ = new Subject<Message>();
     this.incomingMessage$ = new Subject<Message>();
     this.newMessage$ = merge<Message>(this.sentMessage$, this.incomingMessage$);
-    // this.messagesFromCurrentChat$.subscribe((message: Message[]) => {
-    //   console.log('messagesFromCurrentChat$  ' + message)
-    //   this.messagesFromCurrentChat = message;
-    // });
     this.messages$ = this.newMessage$.pipe(
       scan((messages: any, m) => [...messages, m], []));
     this.messages$.subscribe((message: Message[]) => {
@@ -34,18 +29,7 @@ export class ChatService {
           }
         }
       );
-      console.log(this.messagesFromCurrentChat);
     });
-    // this.newMessage$.subscribe((m: Message) => {
-    //   if (m.recipient === this.nameOfActiveBot) {
-    //     this.messagesFromCurrentChat.push(m);
-    //   }
-    // });
-
-    //.pipe(
-    //       filter((m: Message)  => m.sender === 'user' || m.recipient === this.nameOfActiveBot)
-    //     )
-    // this.messages$.subscribe(m => this.messages = m)
   }
 
   messagesFromCurrentChat$: Observable<Message[]>;
@@ -59,14 +43,8 @@ export class ChatService {
 
   messages$: Observable<Message[]>;
 
-  public send(userName: string, message: string) {
-    this.sentMessage$.next(new Message(userName, message, ''));
-
-  }
-
   sendMessageFromUser(newMessage: Message) {
     this.sentMessage$.next(newMessage);
-    // this.sentMessage$.asObservable().subscribe(a => console.log(a));
     this.newMessage$ = merge<Message>(this.sentMessage$, this.incomingMessage$);
     this.messages$ = this.newMessage$.pipe(
       scan((messages: any, m) => [...messages, m], []));
@@ -83,26 +61,7 @@ export class ChatService {
     this.sentMessage$.next(this.sentMessage$);
   }
 
-  results() {
-    // this.messages$.forEach((c: Message[]) => c.forEach(c => console.log('n ' + c.text)));
-    // this.newMessage$.forEach(c => console.log('newMessage' + c));
-    // this.sentMessage$.forEach(c => console.log('sent   ' + c));
-    // this.incomingMessage$.forEach(c => console.log('incoming   ' + c));
-
-  }
-
-  getMessagesFromBot(botName: string) {
-    let messages = [];
-    this.messages$.subscribe(m => messages = m);
-    console.log(messages);
-    return messages;
-  }
-
   getAllMessages(): Message[] {
-    // const messages = [];
-    // // this.messages$.subscribe(m => messages.push(m));
-    // this.incomingMessage$.subscribe(m => messages.push(m));
-    // this.sentMessage$.subscribe(m => messages.push(m));
     return this.messages;
   }
 }

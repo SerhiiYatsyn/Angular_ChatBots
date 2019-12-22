@@ -12,9 +12,6 @@ import {ChatService} from '../../chat.service';
 })
 export class InputFormComponent implements OnInit {
   enteredMessage: string;
-  sentMessage$: Subject<Message> = new Subject();
-  @Output() sentMessage = new EventEmitter();
-
 
   constructor(public chatService: ChatService) {
   }
@@ -23,12 +20,9 @@ export class InputFormComponent implements OnInit {
   }
 
   emitMessage() {
-    if (this.enteredMessage.length > 0) {
+    if (this.enteredMessage.length > 0 && this.chatService.nameOfActiveBot !== undefined) {
       this.chatService.sendMessageFromUser(new Message('user', this.enteredMessage, this.chatService.nameOfActiveBot));
     }
-    // this.sentMessage$.next(new Message('user', this.enteredMessage));
-    // this.sentMessage.emit(this.sentMessage$);
     this.enteredMessage = '';
-    // this.chatService.results();
   }
 }
